@@ -2,7 +2,10 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
-dotenv.config();
+import { resolve } from "path";
+
+dotenv.config({ path: resolve("src/config/.env") });
+//dotenv.config();
 
 import { User } from "../entities/user.entity.js";
 
@@ -16,6 +19,8 @@ export const AppDataSource = new DataSource({
   synchronize: true,         // ✅ ok para DEV y la tarea
   logging: false,
   entities: [User],          // 👈 registra la entidad
+
+  ssl: { rejectUnauthorized: false },
 });
 
 export async function connectDB() {

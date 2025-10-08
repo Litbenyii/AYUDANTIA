@@ -1,7 +1,9 @@
 "use strict";
 import dotenv from "dotenv";
+import { resolve } from "path";
 
-dotenv.config();
+dotenv.config({ path: resolve("src/config/.env") });
+//dotenv.config();
 
 export const HOST = process.env.DB_HOST || process.env.HOST || "localhost";
 export const PORT = process.env.PORT || 3000;
