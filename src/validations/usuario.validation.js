@@ -57,7 +57,7 @@ export const loginSchema = Joi.object({
 export const updateProfileSchema = Joi.object({
   email: emailRule.optional(),
   password: passwordRule.optional(),
-})
+})         
   .or("email", "password")
   .messages({
     "object.missing": "Debes enviar al menos un campo válido para actualizar tu perfil.",
