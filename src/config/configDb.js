@@ -1,4 +1,3 @@
-// src/config/configDb.js
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
@@ -16,9 +15,9 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  synchronize: true,         // ✅ ok para DEV y la tarea
+  synchronize: true,     
   logging: false,
-  entities: [User],          // 👈 registra la entidad
+  entities: [User],        
 
   ssl: { rejectUnauthorized: false },
 });
