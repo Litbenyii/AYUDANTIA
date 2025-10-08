@@ -16,7 +16,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  synchronize: true,         // ✅ ok para DEV y la tarea
+  synchronize: false,         // ✅ ok para DEV y la tarea
   logging: false,
   entities: [User],          // 👈 registra la entidad
 
