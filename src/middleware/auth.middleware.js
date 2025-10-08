@@ -1,24 +1,18 @@
+// src/middleware/auth.middleware.js
 import jwt from "jsonwebtoken";
-import { handleErrorClient } from "../Handlers/responseHandlers.js";
 
 export function authMiddleware(req, res, next) {
-  const authHeader = req.headers["authorization"];
+  const header = req.headers.authorization || "";
+  const [type, token] = header.split(" ");
 
-  if (!authHeader) {
-    return handleErrorClient(res, 401, "Acceso denegado. No se proporcionó token.");
+  if (type !== "Bearer" || !token) {
+    return res.status(401).json({ message: "Token requerido" });
   }
-
-  const token = authHeader.split(" ")[1];
-
-  if (!token) {
-    return handleErrorClient(res, 401, "Acceso denegado. Token malformado.");
-  }
-
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = payload;
-    next();
-  } catch (error) {
-    return handleErrorClient(res, 401, "Token inválido o expirado.", error.message);
+    req.user = payload; // { id, email }
+    return next();
+  } catch {
+    return res.status(401).json({ message: "Token inválido o expirado" });
   }
 }

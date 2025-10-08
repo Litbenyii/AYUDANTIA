@@ -1,25 +1,24 @@
-"use strict";
+// src/config/configDb.js
+import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { DATABASE, DB_USERNAME, HOST, PASSWORD, DB_PORT } from "./configEnv.js";
+import dotenv from "dotenv";
+dotenv.config();
+
+import { User } from "../entities/user.entity.js";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: `${HOST}`,
-  port: DB_PORT,
-  username: `${DB_USERNAME}`,
-  password: `${PASSWORD}`,
-  database: `${DATABASE}`,
-  entities: ["src/entities/**/*.js"],
-  synchronize: true, 
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT ?? 5432),
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  synchronize: true,         // ✅ ok para DEV y la tarea
   logging: false,
+  entities: [User],          // 👈 registra la entidad
 });
 
 export async function connectDB() {
-  try {
-    await AppDataSource.initialize();
-    console.log("=> Conexión exitosa a la base de datos PostgreSQL!");
-  } catch (error) {
-    console.error("Error al conectar con la base de datos:", error);
-    process.exit(1);
-  }
+  await AppDataSource.initialize();
+  console.log("DB OK");
 }
